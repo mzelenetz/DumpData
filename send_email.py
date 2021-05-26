@@ -79,9 +79,7 @@ def main(
     </html>
     '''
 
-    fp = []
-    for q in query_name.split(','):
-        fp.append(write_data(q, query_directory, q.replace('.sql', '')))
+    fp = write_data(q, query_directory, q.replace('.sql', ''))
 
     recipients = get_recipients(task_id, 'output')
     emails = get_recipient_emails(recipients)
