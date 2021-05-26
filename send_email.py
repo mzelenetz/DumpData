@@ -79,7 +79,7 @@ def main(
     </html>
     '''
 
-    fp = write_data(q, query_directory, q.replace('.sql', ''))
+    fp = write_data(query_name, query_directory, query_name.replace('.sql', ''))
 
     recipients = get_recipients(task_id, 'output')
     emails = get_recipient_emails(recipients)
