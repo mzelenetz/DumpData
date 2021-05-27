@@ -104,41 +104,41 @@ SELECT
 		, ns.DEPTDESC
 		, prov.LASTNAME
 		, SMRTXT.PRINT_GROUP
-    , res.'MMC#7018'
-    , res.'MMC#7019'
-    , res.'MMC#7020'
-    , res.'MMC#7021'
-    , res.'MMC#7022'
-    , res.'MMC#7023'
-    , res.'MMC#7024'
-    , res.'MMC#7025'
-    , res.'MMC#7026'
-    , res.'MMC#7028'
-    , res.'MMC#7030'
-    , res.'MMC#7031'
-    , res.'MMC#7034'
-    , res.'MMC#7035'
-    , res.'MMC#7041'
-    , res.'MMC#7042'
-    , res.'MMC#7043'
-    , res.'MMC#7044'
-    , res.'MMC#7045'
-    , res.'MMC#7046'
-    , res.'MMC#7047'
-    , res.'MMC#7048'
-    , res.'MMC#7050'
-    , res.'MMC#7051'
-    , res.'MMC#7058'
-    , res.'MMC#7059'
-    , res.'MMC#7060'
-    , res.'MMC#7061'
-    , res.'MMC#7063'
-    , res.'MMC#7071'
-    , res.'MMC#7085'
-    , res.'MMC#7086'
-    , res.'MMC#7087'
-    , res.'MMC#7088'
-    , res.'MMC#7089'
+    , res."'MMC#7018'"
+    , res."'MMC#7019'"
+    , res."'MMC#7020'"
+    , res."'MMC#7021'"
+    , res."'MMC#7022'"
+    , res."'MMC#7023'"
+    , res."'MMC#7024'"
+    , res."'MMC#7025'"
+    , res."'MMC#7026'"
+    , res."'MMC#7028'"
+    , res."'MMC#7030'"
+    , res."'MMC#7031'"
+    , res."'MMC#7034'"
+    , res."'MMC#7035'"
+    , res."'MMC#7041'"
+    , res."'MMC#7042'"
+    , res."'MMC#7043'"
+    , res."'MMC#7044'"
+    , res."'MMC#7045'"
+    , res."'MMC#7046'"
+    , res."'MMC#7047'"
+    , res."'MMC#7048'"
+    , res."'MMC#7050'"
+    , res."'MMC#7051'"
+    , res."'MMC#7058'"
+    , res."'MMC#7059'"
+    , res."'MMC#7060'"
+    , res."'MMC#7061'"
+    , res."'MMC#7063'"
+    , res."'MMC#7071'"
+    , res."'MMC#7085'"
+    , res."'MMC#7086'"
+    , res."'MMC#7087'"
+    , res."'MMC#7088'"
+    , res."'MMC#7089'"
 FROM EDM.INPATIENTS@EDWPROD ind
     LEFT JOIN EDM.LOOKUPDISPOSITION l ON l.DISPOSITIONID = ind.DISPOSITIONID
     LEFT JOIN EDM.LOOKUPFACILITY fac ON fac.FACILITYID = ind.FACILITYID
@@ -172,31 +172,41 @@ WHERE 1=1
 		, 'ER' AS DEPTDESC
 		, NULL AS LASTNAME
 		, SMRTXT.PRINT_GROUP
-    , res."'MMC#7018'" AS "MMC#7018"
-		, res."'MMC#7019'" AS "MMC#7019"
-		, res."'MMC#7021'" AS "MMC#7021"
-		, res."'MMC#7022'" AS "MMC#7022"
-		, res."'MMC#7023'" AS "MMC#7023"
-		, res."'MMC#7025'" AS "MMC#7025"
-		, res."'MMC#7026'" AS "MMC#7026"
-		, res."'MMC#7028'" AS "MMC#7028"
-		, res."'MMC#7030'" AS "MMC#7030"
-		, res."'MMC#7031'" AS "MMC#7031"
-		, res."'MMC#7034'" AS "MMC#7034"
-		, res."'MMC#7035'" AS "MMC#7035"
-		, res."'MMC#7041'" AS "MMC#7041"
-		, res."'MMC#7042'" AS "MMC#7042"
-		, res."'MMC#7043'" AS "MMC#7043"
-		, res."'MMC#7044'" AS "MMC#7044"
-		, res."'MMC#7045'" AS "MMC#7045"
-		, res."'MMC#7085'" AS "MMC#7085"
-		, res."'MMC#7048'" AS "MMC#7048"
-		, res."'MMC#7050'" AS "MMC#7050"
-		, res."'MMC#7051'" AS "MMC#7051"
-		, res."'MMC#7058'" AS "MMC#7058"
-		, res."'MMC#7087'" AS "MMC#7087"
-		, res."'MMC#7088'" AS "MMC#7088"
-		, res."'MMC#7089'" AS "MMC#7089"
+    , res."'MMC#7018'"
+    , res."'MMC#7019'"
+    , res."'MMC#7020'"
+    , res."'MMC#7021'"
+    , res."'MMC#7022'"
+    , res."'MMC#7023'"
+    , res."'MMC#7024'"
+    , res."'MMC#7025'"
+    , res."'MMC#7026'"
+    , res."'MMC#7028'"
+    , res."'MMC#7030'"
+    , res."'MMC#7031'"
+    , res."'MMC#7034'"
+    , res."'MMC#7035'"
+    , res."'MMC#7041'"
+    , res."'MMC#7042'"
+    , res."'MMC#7043'"
+    , res."'MMC#7044'"
+    , res."'MMC#7045'"
+    , res."'MMC#7046'"
+    , res."'MMC#7047'"
+    , res."'MMC#7048'"
+    , res."'MMC#7050'"
+    , res."'MMC#7051'"
+    , res."'MMC#7058'"
+    , res."'MMC#7059'"
+    , res."'MMC#7060'"
+    , res."'MMC#7061'"
+    , res."'MMC#7063'"
+    , res."'MMC#7071'"
+    , res."'MMC#7085'"
+    , res."'MMC#7086'"
+    , res."'MMC#7087'"
+    , res."'MMC#7088'"
+    , res."'MMC#7089'"
 FROM EDM.ERVISITS@EDWPROD ind
     LEFT JOIN EDM.LOOKUPERDISPOSITION l ON l.ERDISPOSITIONID = ind.ERDISPOSITIONID
     LEFT JOIN EDM.LOOKUPFACILITY fac ON fac.FACILITYID = ind.FACILITYID
