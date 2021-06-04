@@ -26,10 +26,10 @@ def _yesterday_pretty():
     return _yesterday().strftime('%a %B %d, %Y')
 
 def _now():
-    return dt.datetime.now()
+    return dt.datetime.now().astimezone(timezone('America/New_York'))
 
 def _now_pretty():
-    return _now().strftime('%a %B %d, %Y %H:%M')
+    return _now().strftime('%a %B %d, %Y %H:%M %p %Z')
 
 def _cleanup():
     for f in os.listdir(data_dir):
