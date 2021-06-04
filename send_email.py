@@ -38,11 +38,13 @@ def _cleanup():
 
 @click.command()
 @click.argument('query_name')
+@click.option('--email_subject', default='Extracted data')
 @click.option('--query_directory', default=default_sql_dir)
 @click.option('--filename', default='extract')
 @click.option('--cleanup/--no-cleanup', default=True)
 def main(
     query_name,
+    email_subject,
     query_directory,
     filename,
     cleanup
@@ -51,7 +53,7 @@ def main(
     run_id = os.environ['RUN_ID']
 
     # Email subject
-    email_subject = 'Extracted data'
+    # email_subject = 'Extracted data'
 
     now = _now_pretty()
 
