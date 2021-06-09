@@ -16,7 +16,8 @@ data_dir = cfg['LOCAL_DIR']
 # Oracle auth
 oracle_host = cfg['ORACLE_HOST']
 oracle_port = cfg['ORACLE_PORT']
-oracle_service = cfg['ORACLE_SERVICE']
+oracle_service_prod = cfg['ORACLE_SERVICE_PROD']
+oracle_service_dev = cfg['ORACLE_SERVICE_DEV']
 oracle_user = cfg['ORACLE_USER']
 oracle_pwd = cfg['ORACLE_PWD']
 
@@ -32,10 +33,12 @@ def _ensure_data_dir():
         os.mkdir(data_dir)
 
 # Connect to Oracle
-def _connect_db():
+def _connect_db(environ):
+    service = oracle_service_prod if environ == 'prod' else oracle_service_dev
+
     q = Query(
         server=oracle_host,
-        database=oracle_service,
+        database=service,
         username=oracle_user,
         password=oracle_pwd
     )
@@ -68,14 +71,15 @@ def _write_data(df, fp):
 def write_data(
     query_name,
     query_directory,
-    filename
+    filename,
+    environ
 ):
     if filename is None:
         filename = query_name
 
     _ensure_data_dir()
 
-    conn = _connect_db()
+    conn = _connect_db(environ)
 
     query = _get_query(query_directory, query_name)
 

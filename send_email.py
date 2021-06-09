@@ -42,12 +42,14 @@ def _cleanup():
 @click.option('--query_directory', default=default_sql_dir)
 @click.option('--filename', default='extract')
 @click.option('--cleanup/--no-cleanup', default=True)
+@click.option('--environ', default='prod')
 def main(
     query_name,
     email_subject,
     query_directory,
     filename,
-    cleanup
+    cleanup,
+    environ
 ):
     task_id = os.environ['TASK_ID']
     run_id = os.environ['RUN_ID']
@@ -81,7 +83,7 @@ def main(
     </html>
     '''
 
-    fp = write_data(query_name, query_directory, query_name.replace('.sql', ''))
+    fp = write_data(query_name, query_directory, query_name.replace('.sql', ''), environ)
 
     recipients = get_recipients(task_id, 'output')
     emails = get_recipient_emails(recipients)
