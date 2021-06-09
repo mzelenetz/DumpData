@@ -29,7 +29,7 @@ def _now():
     return dt.datetime.now().astimezone(timezone('America/New_York'))
 
 def _now_pretty():
-    return _now().strftime('%a %B %d, %Y %h:%M %p %Z')
+    return _now().strftime('%a %B %d, %Y %H:%M %Z')
 
 def _cleanup():
     for f in os.listdir(data_dir):
