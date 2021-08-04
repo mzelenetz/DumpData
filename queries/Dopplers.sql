@@ -33,4 +33,3 @@ SELECT
 FROM dopplers
 LEFT JOIN PAT_ACTIVE_REG@CLRPROD par ON par.PAT_ID = dopplers.PAT_ID AND par.REGISTRY_ID = 82030
 WHERE BEGIN_EXAM_DTTM BETWEEN TRUNC(SYSDATE) - to_char(sysdate-1, 'd') - 7 AND TRUNC(SYSDATE) - to_char(sysdate, 'd')
-;
