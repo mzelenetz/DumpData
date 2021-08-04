@@ -21,7 +21,7 @@ WITH res AS (
 																															'SARS Coronavirus 2',
 																															'SARS-CoV-2 PCR/Swab (COVID-19)',
 																															'COVID-19 PCR/Swab Overall Result',
-																															'COVID-19 PCR/Swab Symptomatic � Quest',
+																															'COVID-19 PCR/Swab Symptomatic ? Quest',
 																															'SARS-CoV-2 (COVID 19) by NAAT',
 																															'SARS-CoV-2 RNA',
 																															'SARS- COV-2',
@@ -37,7 +37,7 @@ WITH res AS (
 																															'SARS-COV2 (COVID-19)',
 																															'SARS-CoV-2 (COVID19)',
 																															'SARS-COV2 (COVID-19)',
-																															'COVID-19 PCR/Swab Source � Quest',
+																															'COVID-19 PCR/Swab Source ? Quest',
 																															'SALIVA - SARS-COV-2 COVID-19 (CORONAVIRUS) RT-PCR',
 																															'SARS COV2 RNA (WPH - COVID19)')
 																				OR res.RESULT_COMPONENT_ID in
@@ -120,6 +120,8 @@ vis AS (
 
 /*
  * Return only yesterday's results
+ * 
+ * MZ 7/29/21: per email from WPH Cares and ED: include all COVID results for all ages
  */
 SELECT v.*
 	, p.LASTNAME
@@ -137,4 +139,4 @@ FROM vis v
 INNER JOIN res r ON v.NativeVisitID = r.NATIVE_ACCT_NUM_ID
 INNER JOIN EDM.PATIENTS p ON p.PATIENTID = v.PATIENTID
 WHERE TO_DATE(RESULT_DTTM) = TO_DATE(SYSDATE - 1)
-	AND TRUNC(months_between(sysdate, p.DOB) / 12) <=18
+	--AND TRUNC(months_between(sysdate, p.DOB) / 12) <=18

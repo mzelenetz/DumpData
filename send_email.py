@@ -13,28 +13,36 @@ with open('cfg.yml', 'r') as file:
 default_sql_dir = cfg['SQL_DIR']
 data_dir = cfg['LOCAL_DIR']
 
+
 def _today():
     return dt.date.today()
+
 
 def _today_pretty():
     return _today().strftime('%a %B %d, %Y')
 
+
 def _yesterday():
     return dt.date.today() - dt.timedelta(days=1)
+
 
 def _yesterday_pretty():
     return _yesterday().strftime('%a %B %d, %Y')
 
+
 def _now():
     return dt.datetime.now().astimezone(timezone('America/New_York'))
 
+
 def _now_pretty():
     return _now().strftime('%a %B %d, %Y %H:%M %Z')
+
 
 def _cleanup():
     for f in os.listdir(data_dir):
         if '.csv' in f:
             os.remove(os.path.join(data_dir, f))
+
 
 @click.command()
 @click.argument('query_name')
@@ -42,6 +50,7 @@ def _cleanup():
 @click.option('--query_directory', default=default_sql_dir)
 @click.option('--filename', default='extract')
 @click.option('--cleanup/--no-cleanup', default=True)
+@click.option('--smtpserver', default='smtp.stellarishealth.net')
 @click.option('--environ', default='prod')
 def main(
     query_name,
@@ -49,7 +58,8 @@ def main(
     query_directory,
     filename,
     cleanup,
-    environ
+    environ,
+    smtpserver
 ):
     task_id = os.environ['TASK_ID']
     run_id = os.environ['RUN_ID']
@@ -83,7 +93,8 @@ def main(
     </html>
     '''
 
-    fp = write_data(query_name, query_directory, query_name.replace('.sql', ''), environ)
+    fp = write_data(query_name, query_directory,
+                    query_name.replace('.sql', ''), environ)
 
     recipients = get_recipients(task_id, 'output')
     emails = get_recipient_emails(recipients)
@@ -97,13 +108,15 @@ def main(
         attachment=fp,
         run=run_id,
         category='output',
-        object='task'
+        object='task',
+        server=smtpserver
     )
 
     e.build_and_send()
 
     if cleanup:
         _cleanup()
+
 
 if __name__ == '__main__':
     main()
