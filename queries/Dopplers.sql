@@ -6,7 +6,7 @@
 WITH dopplers AS (
 	SELECT
 		  PAT_MRN_ID AS MRN
-		, PAT_ID
+		, im.PAT_ID
 		, PAT_NAME
 		, ss.NAME AS STUDY_STATUS
 		, BEGIN_EXAM_DTTM
