@@ -1,0 +1,155 @@
+WITH
+  response
+  AS
+  (
+    SELECT *
+    FROM
+      (
+			SELECT wpa.PAT_MRN_ID , wpa.ANSWER, wpa.SMARTDATEELEMENT AS ELEMENT_ID
+      FROM JSEGE.WPH_POSTDISCHARGE_ASSESSMENT wpa
+		)
+		PIVOT
+		(
+		 max(ANSWER) FOR ELEMENT_ID IN (
+		
+		'MMC#7018'
+		, 'MMC#7019'
+		, 'MMC#7020'
+		, 'MMC#7021'
+		, 'MMC#7022'
+		, 'MMC#7023'
+		, 'MMC#7025'
+		, 'MMC#7026'
+		, 'MMC#7027'
+		, 'MMC#7028'
+		, 'MMC#7029'
+		, 'MMC#7030'
+		, 'MMC#7032'
+		, 'MMC#7034'
+		, 'MMC#7036'
+		, 'MMC#7040'
+		, 'MMC#7058'
+		, 'MMC#7059'
+		, 'MMC#7060'
+		, 'MMC#7061'
+		, 'MMC#7063'
+		, 'MMC#7087'
+		, 'MMC#7088'
+		, 'MMC#7089'
+    --,'MMC#7024'
+  )
+		)
+)
+
+
+
+-- INPATIENTS
+  SELECT
+    DISTINCT
+    ind.PATIENTID
+		, ind.MRN
+		, ind.INPATIENTID
+		, ind.ADMITTED
+		, ind.DISCHARGED
+		, ind.DISPOSITIONID
+		, l.DISPOSITIONDESC
+		, fac.FACILITYDESC
+		, serv.SERVICEDESC
+		, ns.DEPTDESC
+		, prov.LASTNAME
+		, CASE WHEN SMRTXT.PAT_MRN_ID IS NOT NULL THEN 'Contacted' ELSE NULL END AS PRINT_GROUP
+		, res."'MMC#7018'" as "MMC#7018"
+, res."'MMC#7019'" as "MMC#7019"
+, res."'MMC#7020'" as "MMC#7020"
+, res."'MMC#7021'" as "MMC#7021"
+, res."'MMC#7022'" as "MMC#7022"
+, res."'MMC#7023'" as "MMC#7023"
+, res."'MMC#7025'" as "MMC#7025"
+, res."'MMC#7026'" as "MMC#7026"
+, res."'MMC#7027'" as "MMC#7027"
+, res."'MMC#7028'" as "MMC#7028"
+, res."'MMC#7029'" as "MMC#7029"
+, res."'MMC#7030'" as "MMC#7030"
+, res."'MMC#7032'" as "MMC#7032"
+, res."'MMC#7034'" as "MMC#7034"
+, res."'MMC#7036'" as "MMC#7036"
+, res."'MMC#7040'" as "MMC#7040"
+, res."'MMC#7058'" as "MMC#7058"
+, res."'MMC#7059'" as "MMC#7059"
+, res."'MMC#7060'" as "MMC#7060"
+, res."'MMC#7061'" as "MMC#7061"
+, res."'MMC#7063'" as "MMC#7063"
+, res."'MMC#7087'" as "MMC#7087"
+, res."'MMC#7088'" as "MMC#7088"
+, res."'MMC#7089'" as "MMC#7089"
+  FROM EDM.INPATIENTS@EDWPROD ind
+    LEFT JOIN EDM.LOOKUPDISPOSITION l ON l.DISPOSITIONID = ind.DISPOSITIONID
+    LEFT JOIN EDM.LOOKUPFACILITY fac ON fac.FACILITYID = ind.FACILITYID
+    LEFT JOIN EDM.LOOKUPSERVICE serv ON ind.SERVICEID = serv.SERVICEID
+    --	LEFT JOIN EDM.LOOKUPDEPARTMENT dep ON dep.DEPTID = ind
+    LEFT JOIN EDM.LOOKUPPROVIDER prov ON ind.DISCHATTENDID = prov.PROVIDERID
+    LEFT JOIN EDM.LOOKUPNURSINGSTATION ns ON ns.NURSINGSTATIONID = ind.DISCHNSID
+    LEFT JOIN response res ON res.PAT_MRN_ID = ind.MRN
+    LEFT JOIN JSEGE.WPH_POSTDISCHARGE_ASSESSMENT smrtxt ON SMRTXT.PAT_MRN_ID = ind.MRN
+  WHERE 1=1
+    AND fac.FACILITYDESC = 'White Plains Hospital'
+    AND SERVICEDESC NOT IN ('Obstetrics', 'Gynecology', 'Newborn')
+
+    AND IND.DISPOSITIONID  IN (2, 7, 8)
+  --AND TO_DATE(ind.DISCHARGED) >= TO_DATE(current_date - 14)
+
+UNION ALL
+
+  -- ED
+  SELECT
+    DISTINCT
+    ind.PATIENTID
+		, ind.MRN
+		, ind.ERVISITID
+		, ind.ARRIVALDATETIME
+		, ind.DISCHARGED
+		, ind.ERDISPOSITIONID
+		, l.ERDISPOSITIONDESC
+		, fac.FACILITYDESC
+		, NULL AS SERVICEDESC
+		, 'ER' AS DEPTDESC
+		, NULL AS LASTNAME
+		, CASE WHEN SMRTXT.PAT_MRN_ID IS NOT NULL THEN 'Contacted' ELSE NULL END AS PRINT_GROUP
+    	, res."'MMC#7018'" as "MMC#7018"
+, res."'MMC#7019'" as "MMC#7019"
+, res."'MMC#7020'" as "MMC#7020"
+, res."'MMC#7021'" as "MMC#7021"
+, res."'MMC#7022'" as "MMC#7022"
+, res."'MMC#7023'" as "MMC#7023"
+, res."'MMC#7025'" as "MMC#7025"
+, res."'MMC#7026'" as "MMC#7026"
+, res."'MMC#7027'" as "MMC#7027"
+, res."'MMC#7028'" as "MMC#7028"
+, res."'MMC#7029'" as "MMC#7029"
+, res."'MMC#7030'" as "MMC#7030"
+, res."'MMC#7032'" as "MMC#7032"
+, res."'MMC#7034'" as "MMC#7034"
+, res."'MMC#7036'" as "MMC#7036"
+, res."'MMC#7040'" as "MMC#7040"
+, res."'MMC#7058'" as "MMC#7058"
+, res."'MMC#7059'" as "MMC#7059"
+, res."'MMC#7060'" as "MMC#7060"
+, res."'MMC#7061'" as "MMC#7061"
+, res."'MMC#7063'" as "MMC#7063"
+, res."'MMC#7087'" as "MMC#7087"
+, res."'MMC#7088'" as "MMC#7088"
+, res."'MMC#7089'" as "MMC#7089"
+  FROM EDM.ERVISITS@EDWPROD ind
+    LEFT JOIN EDM.LOOKUPERDISPOSITION l ON l.ERDISPOSITIONID = ind.ERDISPOSITIONID
+    LEFT JOIN EDM.LOOKUPFACILITY fac ON fac.FACILITYID = ind.FACILITYID
+    -- LEFT JOIN EDM.LOOKUPSERVICE serv ON ind.SERVICEID = serv.SERVICEID
+    --	LEFT JOIN EDM.LOOKUPDEPARTMENT dep ON dep.DEPTID = ind
+    -- LEFT JOIN EDM.LOOKUPPROVIDER prov ON ind.SEENBYMD = prov.PROVIDERID
+    LEFT JOIN response res ON res.PAT_MRN_ID = ind.MRN
+    LEFT JOIN JSEGE.WPH_POSTDISCHARGE_ASSESSMENT smrtxt ON SMRTXT.PAT_MRN_ID = ind.MRN
+  WHERE 1=1
+    AND fac.FACILITYDESC = 'White Plains Hospital'
+    -- AND SERVICEDESC NOT IN ('Obstetrics', 'Gynecology', 'Newborn')
+
+    AND IND.ERDISPOSITIONID  IN (3, 8)
+		--AND TO_DATE(ind.DISCHARGED) >= TO_DATE(current_date - 14)
