@@ -1,17 +1,13 @@
 from sprucepy.notifier import Email, get_recipient_emails, get_recipients, get_recipient_attrs
 import click
 import datetime as dt
-import yaml
 from pytz import timezone
 from get_data import *
 
-# Get configs from file
-with open('cfg.yml', 'r') as file:
-    cfg = yaml.load(file, Loader=yaml.FullLoader)
-
 # Filesystem
-default_sql_dir = cfg['SQL_DIR']
-data_dir = cfg['LOCAL_DIR']
+default_sql_dir = 'queries'
+data_dir = 'data'
+
 
 def _today():
     return dt.date.today()
