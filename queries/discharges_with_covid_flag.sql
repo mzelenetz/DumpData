@@ -39,7 +39,6 @@ WITH
 																															'SARS-COV2 (COVID-19)',
 																															'SARS-CoV-2 (COVID19)',
 																															'SARS-COV2 (COVID-19)',
-																															'COVID-19 PCR/Swab Source – Quest',
 																															'SALIVA - SARS-COV-2 COVID-19 (CORONAVIRUS) RT-PCR',
 																															'SARS COV2 RNA (WPH - COVID19)')
                 OR res.RESULT_COMPONENT_ID in
@@ -91,6 +90,7 @@ WITH
 																										72099,
 																										72679)
                 or res.RESULT_COMPONENT_EXTERNAL_NAME like 'COVID-19 PCR/Swab Symptomatic %Quest'
+                or res.RESULT_COMPONENT_EXTERNAL_NAME like 'COVID-19 PCR/Swab Source %Quest'
 																										)
     )
 
@@ -109,7 +109,7 @@ FROM EDM.INPATIENTS@EDWPROD ip
     LEFT JOIN EDM.LOOKUPDISPOSITION dispo ON dispo.DISPOSITIONID = ip.DISPOSITIONID
     LEFT JOIN
     (
-	                        SELECT DISTINCT ed.INPATIENTID
+	                                SELECT DISTINCT ed.INPATIENTID
 			, ed.MRN
 			, ed.NATIVEACCTNUMID
 			, ed.ADMITTED
