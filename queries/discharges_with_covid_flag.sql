@@ -24,7 +24,6 @@ WITH
 																															'SARS Coronavirus 2',
 																															'SARS-CoV-2 PCR/Swab (COVID-19)',
 																															'COVID-19 PCR/Swab Overall Result',
-																															'COVID-19 PCR/Swab Symptomatic – Quest',
 																															'SARS-CoV-2 (COVID 19) by NAAT',
 																															'SARS-CoV-2 RNA',
 																															'SARS- COV-2',
@@ -91,6 +90,7 @@ WITH
 																										81860,
 																										72099,
 																										72679)
+                or res.RESULT_COMPONENT_EXTERNAL_NAME like 'COVID-19 PCR/Swab Symptomatic %Quest'
 																										)
     )
 
@@ -109,7 +109,7 @@ FROM EDM.INPATIENTS@EDWPROD ip
     LEFT JOIN EDM.LOOKUPDISPOSITION dispo ON dispo.DISPOSITIONID = ip.DISPOSITIONID
     LEFT JOIN
     (
-	        SELECT DISTINCT ed.INPATIENTID
+	                        SELECT DISTINCT ed.INPATIENTID
 			, ed.MRN
 			, ed.NATIVEACCTNUMID
 			, ed.ADMITTED
@@ -119,7 +119,7 @@ FROM EDM.INPATIENTS@EDWPROD ip
             INNER JOIN EDM.LOOKUPFACILITY fac ON fac.FACILITYID = ed.FACILITYID AND REGEXP_LIKE(fac.FACILITYDESC, '(white plains)|(wph)', 'i')
             LEFT JOIN res ON ed.NATIVEACCTNUMID = res.NATIVE_ACCT_NUM_ID
             LEFT JOIN EDM.LOOKUPDISPOSITION dispo ON dispo.DISPOSITIONID = ed.DISPOSITIONID
-        WHERE 1=1 --ed.DISCHARGED IS NOT NULL
+        WHERE 1=1
             AND res.RESULT_SHORT = 'Positive'
 
     UNION ALL
@@ -135,6 +135,6 @@ FROM EDM.INPATIENTS@EDWPROD ip
             LEFT JOIN EDM.INPATIENTSICD10DX@EDWPROD icd ON ed.INPATIENTID = icd.INPATIENTID
             INNER JOIN EDM.LOOKUPICD10DX icd10 ON icd10.ICD10DXID = icd.ICD10DXID AND icd10.ICD10DXCODEDECIMAL = 'U07.1'
             LEFT JOIN EDM.LOOKUPDISPOSITION dispo ON dispo.DISPOSITIONID = ed.DISPOSITIONID
-        WHERE 1=1 --ed.DISCHARGED IS NOT NULL
+        WHERE 1=1
 ) cov ON cov.INPATIENTID = ip.INPATIENTID
 WHERE EXTRACT(YEAR FROM ip.DISCHARGED) = EXTRACT(YEAR FROM SYSDATE)
