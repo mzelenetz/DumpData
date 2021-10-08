@@ -1,6 +1,7 @@
 SELECT DISTINCT
     pt.FIRSTNAME 
-      , pt.LASTNAME 
+      , pt.LASTNAME
+      , pt.MRN
       , pt.EMAILADDRESS 
       , pt.HOMEPHONE 
       , pt.CELLPHONE 
