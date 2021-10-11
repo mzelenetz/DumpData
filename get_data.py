@@ -16,7 +16,7 @@ data_dir = cfg['LOCAL_DIR']
 
 # Get secrets from Spruce
 spruce_api_url = 'http://10.16.8.20:1592/api/v1/'
-secrets_list = ['js_oracle_username', 'js_oracle_password']
+secrets_list = ['js_oracle_username', 'js_oracle_password', 'js_oracle_password_prod']
 conn_dict = {k:secrets.get_secret_by_key(k, api_url=spruce_api_url) for k in secrets_list}
 
 # Get today's date
@@ -32,6 +32,11 @@ def _ensure_data_dir():
 
 # Connect to Oracle
 def _connect_db(environ):
+    if environ == 'dev':
+        password = conn_dict['js_oracle_password']
+    else:
+        password = conn_dict['js_oracle_password_prod']
+
     q = Query(
         connection_type='mit_edw',
         environ=environ,
