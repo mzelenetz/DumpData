@@ -41,7 +41,7 @@ def _connect_db(environ):
         connection_type='mit_edw',
         environ=environ,
         username=conn_dict['js_oracle_username'],
-        password=conn_dict['js_oracle_password']
+        password=password
     )
 
     q.add_query_libs(default_sql_dir)
