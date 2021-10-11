@@ -4,6 +4,7 @@ import yaml
 import datetime as dt
 
 from wpconnect import Query
+from sprucepy import secrets
 
 # Get configs from file
 with open('cfg.yml', 'r') as file:
@@ -13,13 +14,10 @@ with open('cfg.yml', 'r') as file:
 default_sql_dir = cfg['SQL_DIR']
 data_dir = cfg['LOCAL_DIR']
 
-# Oracle auth
-oracle_host = cfg['ORACLE_HOST']
-oracle_port = cfg['ORACLE_PORT']
-oracle_service_prod = cfg['ORACLE_SERVICE_PROD']
-oracle_service_dev = cfg['ORACLE_SERVICE_DEV']
-oracle_user = cfg['ORACLE_USER']
-oracle_pwd = cfg['ORACLE_PWD']
+# Get secrets from Spruce
+spruce_api_url = 'http://10.16.8.20:1592/api/v1/'
+secrets_list = ['js_oracle_username', 'js_oracle_password']
+conn_dict = {k:secrets.get_secret_by_key(k, api_url=spruce_api_url) for k in secrets_list}
 
 # Get today's date
 def _get_date():
@@ -34,13 +32,11 @@ def _ensure_data_dir():
 
 # Connect to Oracle
 def _connect_db(environ):
-    service = oracle_service_prod if environ == 'prod' else oracle_service_dev
-
     q = Query(
-        server=oracle_host,
-        database=service,
-        username=oracle_user,
-        password=oracle_pwd
+        connection_type='mit_edw',
+        environ=environ,
+        username=conn_dict['js_oracle_username'],
+        password=conn_dict['js_oracle_password']
     )
 
     q.add_query_libs(default_sql_dir)
