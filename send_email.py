@@ -48,7 +48,7 @@ def _cleanup():
 @click.argument('query_name')
 @click.option('--email_subject', default='Extracted data')
 @click.option('--query_directory', default=default_sql_dir)
-@click.option('--filename', default='extract')
+@click.option('--filename', default=None)
 @click.option('--cleanup/--no-cleanup', default=True)
 @click.option('--smtpserver', default='smtp.stellarishealth.net')
 @click.option('--environ', default='prod')
@@ -93,8 +93,10 @@ def main(
     </html>
     '''
 
+    filename = filename if filename else query_name.replace('.sql', '')
+
     fp = write_data(query_name, query_directory,
-                    query_name.replace('.sql', ''), environ)
+                    filename, environ)
 
     recipients = get_recipients(task_id, 'output')
     emails = get_recipient_emails(recipients)
