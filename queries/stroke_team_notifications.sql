@@ -19,7 +19,7 @@ from edm.findings_all@edwprod a
         FROM edm.ERVISITS@edwprod e 
 	)i ON i.NATIVEACCTNUMID = a.NATIVEACCTNUMID
     LEFT JOIN edm.LOOKUPFACILITY fac ON fac.FACILITYID = i.FACILITYID
-where a.findingtypeid in (400000611) -- Stroke team activation
+where a.findingtypeid in (400000611, 400000824) -- Stroke team activation
     and findingdatetime >= '01-may-21'
     AND REGEXP_LIKE(fac.FACILITYDESC, '(wph)|(white plains)', 'i')
     AND NATIVEFINDING != 'No'
